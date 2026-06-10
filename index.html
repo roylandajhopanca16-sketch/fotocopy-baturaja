@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TA: SIG Pencarian Fotocopy Baturaja</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <h1 class="logo">GeoCopy Baturaja</h1>
+        <div id="auth-section">
+            <button id="btn-login-view" class="btn-login" onclick="toggleModal(true)">Login</button>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <h2>Selamat Datang di GeoCopy Baturaja</h2>
+        <p>Sistem Informasi Geografis pencarian lokasi fotokopi terdekat di wilayah Baturaja dan rute perjalanan secara real-time untuk tugas akhir.</p>
+    </header>
+
+    <main class="main-container">
+        <div class="sidebar">
+            <h3>Daftar Tempat Fotokopi</h3>
+            <div id="daftar-lokasi" class="list-container">
+                </div>
+        </div>
+        
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </main>
+
+    <div id="login-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Login Pengguna</h3>
+            <p class="demo-info">Akun Demo -> User: <strong>mahasiswa</strong> | Pass: <strong>unbara</strong></p>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="toggleModal(false)">Batal</button>
+                <button class="btn-submit" onclick="prosesLogin()">Masuk</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    
+    <script src="app.js"></script>
+</body>
+</html>
