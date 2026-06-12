@@ -1,157 +1,184 @@
-// Data Koordinat dan Atribut Sekolah di Baturaja untuk Tugas Akhir
-const dataSekolah = [
+let map;
+let ruteKontrol;
+let userCoords = [-4.131013, 104.156557]; // Titik Tengah Default: Taman Kota Baturaja
+
+// DATA KOORDINAT 11 TEMPAT FOTOKOPI RIIL BATURAJA
+const dataFotocopy = [
     {
         id: 1,
-        nama: "SMA Negeri 1 OKU",
-        jenjang: "SMA",
-        status: "Negeri",
-        akreditasi: "A", // BAN-S/M 2010, nilai 89
-        koordinat: [-4.1271315, 104.1809816],
-        alamat: "Jl. Dr. M. Hatta No.261, Sukaraya, Baturaja Timur",
-        fasilitas: "Laboratorium Komputer, Lapangan Basket, Perpustakaan Digital",
-        kontak: "(0735) 320326"
+        nama: "Fotocopy Unbara Mandiri",
+        lat: -4.130541,
+        lng: 104.161122,
+        alamat: "Jl. Ki Ratu Penghulu, Karang Sari (Samping Gerbang Utama Kampus Unbara)"
     },
     {
         id: 2,
-        nama: "SMA Negeri 5 OKU",
-        jenjang: "SMA",
-        status: "Negeri",
-        akreditasi: "B", // belum ditemukan data resmi, perlu verifikasi
-        koordinat: [-4.1305788, 104.1692815],
-        alamat: "Jl. Dr. Ak. Gani, Baturaja Lama, Baturaja Timur",
-        fasilitas: "Laboratorium IPA, Perpustakaan, Lapangan Olahraga",
-        kontak: "(0735) 323992"
+        nama: "Percetakan & Fotocopy Megah Jaya",
+        lat: -4.1253645,
+        lng: 104.1733866,
+        alamat: "Jl. Jenderal Ahmad Yani, Baturaja Lama, Baturaja Timur"
     },
     {
         id: 3,
-        nama: "SMA Negeri 3 OKU",
-        jenjang: "SMA",
-        status: "Negeri",
-        akreditasi: "A", // BAN-S/M 2011, nilai 87
-        koordinat: [-4.1419013, 104.1543479],
-        alamat: "Jl. Jend. Gatot Subroto No.21, Pasarbaru, Baturaja Barat",
-        fasilitas: "Ruang Multimedia, Lapangan Voli, Perpustakaan",
-        kontak: "(0735) 323922"
+        nama: "Rizka Print & Fotocopy",
+        lat: -4.131607,
+        lng: 104.1557895,
+        alamat: "Depan Sekolah, Jl. MTsN, Tanjung Agung, Baturaja Barat"
     },
     {
         id: 4,
-        nama: "SMA Xaverius Baturaja",
-        jenjang: "SMA",
-        status: "Swasta",
-        akreditasi: "B", // BAN-S/M 2011, nilai 83
-        koordinat: [-4.1288545, 104.1477108],
-        alamat: "Jl. Kol. Burlian No.361, Tj. Agung, Baturaja Barat",
-        fasilitas: "Laboratorium Komputer, Kapel, Perpustakaan",
-        kontak: "(0735) 3742614"
+        nama: "Linda Fotocopy",
+        lat: -4.1242321,
+        lng: 104.1720331,
+        alamat: "Kemalaraja, Jl. Jenderal S. Parman, Baturaja Lama, Baturaja Timur"
     },
     {
         id: 5,
-        nama: "SMP Negeri 1 OKU",
-        jenjang: "SMP",
-        status: "Negeri",
-        akreditasi: "A", // perlu verifikasi
-        koordinat: [-4.1236098, 104.1708345],
-        alamat: "Jl. H.S. Simanjuntak No.0786, Baturaja Lama",
-        fasilitas: "Laboratorium IPA, Perpustakaan, Lapangan Upacara",
-        kontak: "-"
+        nama: "Foto Copy Doris Abadi 7",
+        lat: -4.1273312,
+        lng: 104.1810026,
+        alamat: "Jl. Dr. M. Hatta, Tanjung Baru, Baturaja Timur"
     },
     {
         id: 6,
-        nama: "SMP Negeri 2 OKU",
-        jenjang: "SMP",
-        status: "Negeri",
-        akreditasi: "A", // perlu verifikasi
-        koordinat: [-4.1246166, 104.1703617],
-        alamat: "Baturaja Lama, Baturaja Timur",
-        fasilitas: "Laboratorium Komputer, Perpustakaan, Mushola",
-        kontak: "(0735) 320083"
+        nama: "Percetakan Dunia Warna Baturaja",
+        lat: -4.125415,
+        lng: 104.173757,
+        alamat: "Jl. Jenderal Ahmad Yani No.075, Kemalaraja, Baturaja Timur"
     },
     {
         id: 7,
-        nama: "SMP Xaverius Baturaja",
-        jenjang: "SMP",
-        status: "Swasta",
-        akreditasi: "A", // perlu verifikasi
-        koordinat: [-4.1302300, 104.1615500],
-        alamat: "Baturaja Lama, Baturaja Timur",
-        fasilitas: "Laboratorium Komputer, Kapel, Perpustakaan",
-        kontak: "-"
+        nama: "Foto Copy Angkasa",
+        lat: -4.1252343,
+        lng: 104.1699228,
+        alamat: "Jl. Jenderal Ahmad Yani No.308-309, Kemala Raja, Baturaja Timur"
     },
     {
         id: 8,
-        nama: "SMP Muhammadiyah Baturaja",
-        jenjang: "SMP",
-        status: "Swasta",
-        akreditasi: "B", // perlu verifikasi
-        koordinat: [-4.1245420, 104.1697045],
-        alamat: "Jl. BLL Kulon No.0809, Baturaja Lama, Baturaja Timur",
-        fasilitas: "Mushola, Perpustakaan, Lapangan Olahraga",
-        kontak: "-"
+        nama: "Foto Copy & ATK Aqilah",
+        lat: -4.1146712,
+        lng: 104.2043856,
+        alamat: "Jl. Kolonel Wahab Sarobu, Sekar Jaya, Baturaja Timur"
     },
     {
         id: 9,
-        nama: "SMK Negeri 1 OKU",
-        jenjang: "SMK",
-        status: "Negeri",
-        akreditasi: "A", // klaim ISO 9001:2008 di website resmi, BAN-S/M perlu verifikasi
-        koordinat: [-4.1296583, 104.1687849],
-        alamat: "Baturaja Lama, Baturaja Timur",
-        fasilitas: "Bengkel Praktik, Laboratorium Komputer, Perpustakaan",
-        kontak: "(0735) 320409"
+        nama: "Alfina Fotocopy",
+        lat: -4.1153072,
+        lng: 104.1768403,
+        alamat: "Jl. Mayor Ismail Husein No.796B, Kemalaraja, Baturaja Timur"
     },
     {
         id: 10,
-        nama: "SMK Negeri 2 OKU",
-        jenjang: "SMK",
-        status: "Negeri",
-        akreditasi: "A", // perlu verifikasi
-        koordinat: [-4.1279714, 104.1842609],
-        alamat: "Tanjung Baru, Baturaja Timur",
-        fasilitas: "Ruang Praktik Tata Boga, Salon Kecantikan, Hotel Mini",
-        kontak: "(0895) 6045-34184"
+        nama: "Yrdesign Percetakan dan Fotocopy",
+        lat: -4.1282487,
+        lng: 104.1804924,
+        alamat: "Tanjung Baru, Baturaja Timur"
     },
     {
         id: 11,
-        nama: "SMK Negeri 3 OKU",
-        jenjang: "SMK",
-        status: "Negeri",
-        akreditasi: "A", // perlu verifikasi
-        koordinat: [-4.1232342, 104.1930076],
-        alamat: "Jl. MS. Oeding No.695, Air Paoh, Baturaja Timur",
-        fasilitas: "Bengkel Teknik, Laboratorium Komputer, Lapangan Olahraga",
-        kontak: "(0735) 320906"
-    },
-    {
-        id: 12,
-        nama: "SMK Yadika Baturaja",
-        jenjang: "SMK",
-        status: "Swasta",
-        akreditasi: "A", // SMA Yadika BAN-S/M 2011 nilai 96 (data jenjang SMA, SMK perlu cek terpisah)
-        koordinat: [-4.1185108, 104.1781458],
-        alamat: "Jl. Sultan Mahmud Badarudin, Sukaraya, Baturaja Timur",
-        fasilitas: "Laboratorium Komputer, Ruang Praktik, Perpustakaan",
-        kontak: "(0735) 325026"
-    },
-    {
-        id: 13,
-        nama: "SMK Bina Marta Baturaja",
-        jenjang: "SMK",
-        status: "Swasta",
-        akreditasi: "B", // perlu verifikasi
-        koordinat: [-4.1190646, 104.1697277],
-        alamat: "Baturaja Lama, Baturaja Timur",
-        fasilitas: "Ruang Praktik Keperawatan, Laboratorium Farmasi, Perpustakaan",
-        kontak: "(0735) 322586"
-    },
-    {
-        id: 14,
-        nama: "SMK Sentosa Bhakti Baturaja",
-        jenjang: "SMK",
-        status: "Swasta",
-        akreditasi: "A", // SMA Sentosa Bhakti BAN-S/M 2011 nilai 89 (jenjang SMA, SMK perlu cek terpisah)
-        koordinat: [-4.1223999, 104.1758277],
-        alamat: "Baturaja Lama, Baturaja Timur",
-        fasilitas: "Laboratorium Komputer, Ruang Praktik, Perpustakaan",
-        kontak: "-"
+        nama: "ATK Berlin Grup",
+        lat: -4.1203179,
+        lng: 104.1692887,
+        alamat: "Jl. Dr. M. Hatta, Baturaja Lama, Baturaja Timur"
     }
 ];
+
+// 1. Inisialisasi Sistem Peta Digital
+function initMap() {
+    // Membangun peta di area Baturaja
+    map = L.map('map').setView(userCoords, 14);
+
+    // Mengambil aset desain rupa bumi dari OpenStreetMap OpenSource
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // Membaca Titik GPS Real-time Gawai Pengguna
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            userCoords = [position.coords.latitude, position.coords.longitude];
+            map.setView(userCoords, 14);
+            
+            // Memberi marker penanda di posisi user saat ini
+            L.marker(userCoords).addTo(map)
+                .bindPopup('<strong>Posisi Anda Sekarang</strong>').openPopup();
+                
+            prosesTampilanData();
+        }, () => {
+            alert("Akses GPS ditolak. Sistem menggunakan koordinat acuan Taman Kota Baturaja.");
+            prosesTampilanData();
+        });
+    } else {
+        prosesTampilanData();
+    }
+}
+
+// 2. Merender Pin Peta dan List Kartu Samping
+function prosesTampilanData() {
+    const daftarEl = document.getElementById('daftar-lokasi');
+    daftarEl.innerHTML = ''; // Membersihkan loading text
+
+    dataFotocopy.forEach(item => {
+        // Menyematkan Pin Lokasi Fotocopy di Peta
+        L.marker([item.lat, item.lng]).addTo(map)
+            .bindPopup(`<strong>${item.nama}</strong><br><span style="font-size:11px; color:#475569;">${item.alamat}</span>`);
+
+        // Mencetak Kartu Navigasi di Panel Samping
+        const itemEl = document.createElement('div');
+        itemEl.className = "card-fotocopy";
+        itemEl.innerHTML = `
+            <h4>${item.nama}</h4>
+            <p>${item.alamat}</p>
+            <button class="btn-route" onclick="kalkulasiRuteJalan(${item.lat}, ${item.lng})">
+                Cari Rute Jalan
+            </button>
+        `;
+        daftarEl.appendChild(itemEl);
+    });
+}
+
+// 3. Menghitung Rute Jalan Menggunakan Routing Machine API (Real-time)
+function kalkulasiRuteJalan(destLat, destLng) {
+    // Hapus rute lama jika pengguna berganti memilih toko lain
+    if (ruteKontrol) {
+        map.removeControl(ruteKontrol);
+    }
+
+    // Gambar rute jalan otomatis
+    ruteKontrol = L.Routing.control({
+        waypoints: [
+            L.latLng(userCoords[0], userCoords[1]), // Asal (GPS User)
+            L.latLng(destLat, destLng)              // Tujuan (Toko Pilihan)
+        ],
+        routeWhileDragging: false,
+        lineOptions: {
+            styles: [{ color: '#1e3a8a', weight: 6 }] // Garis rute diubah sewarna dengan tinta biru navy
+        },
+        createMarker: function() { return null; } // Menyembunyikan pin duplikat agar visual bersih
+    }).addTo(map);
+}
+
+// 4. Manajemen Tampilan Popup Login
+function toggleModal(show) {
+    const modal = document.getElementById('login-modal');
+    if (show) {
+        modal.classList.remove('hidden');
+    } else {
+        modal.classList.add('hidden');
+    }
+}
+
+function prosesLogin() {
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+
+    if (user === 'mahasiswa' && pass === 'unbara') {
+        document.getElementById('auth-section').innerHTML = `<span class="login-status-box">Halo, Mahasiswa Unbara</span>`;
+        toggleModal(false);
+    } else {
+        alert('Kombinasi sandi atau nama pengguna salah!');
+    }
+}
+
+// Trigger inisialisasi peta setelah seluruh dokumen siap
+window.onload = initMap;
